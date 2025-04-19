@@ -5,9 +5,37 @@ export const adminApi = createApi({
     baseQuery : fetchBaseQuery({baseUrl : "http://localhost:3000/"}),
     endpoints : (builder)=>({
         getAccounts : builder.query({
-            query : ()=> `accounts`
+            query : ()=> `accounts`,
+            providesTags : ['accounts']
+        }),
+        getAccountById : builder.query({
+            query : (id)=> `accounts/${id}`,
+            providesTags : ["accounts"]
+        }),
+        addAccount : builder.mutation({
+            query : (body)=> ({
+                url : "accounts",
+                method : "POST",
+                body
+            }),
+            invalidatesTags : ['accounts']
+        }),
+        deleteAccount : builder.mutation({
+            query : (id)=>({
+                url : `accounts/${id}`,
+                method : "DELETE"
+            }),
+            invalidatesTags : ["accounts"]
+        }),
+        updateAccount : builder.mutation({
+            query : ({id,amount})=>({
+                url : `accounts/${id}`,
+                method : "PATCH",
+                body : {amount}
+            }),
+            invalidatesTags : ["accounts"]
         })
     })
 });
 
-export const {useGetAccountsQuery} = adminApi
+export const {useGetAccountsQuery,useGetAccountByIdQuery,useAddAccountMutation,useDeleteAccountMutation,useUpdateAccountMutation} = adminApi
