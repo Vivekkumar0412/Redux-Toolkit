@@ -14,6 +14,7 @@ export const fetchAccount = createAsyncThunk(
   'account/getById',
   async (id,thunkApi)=>{
     let res = await axios.get(`http://localhost:3000/accounts/${id}`)
+    console.log(res)
     return res.data.amount
   }
 )
